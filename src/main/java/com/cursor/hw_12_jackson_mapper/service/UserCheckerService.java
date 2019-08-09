@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserCheckerService {
 
-    public List<User> getUserInfo (String userInfo);
+    public User getUserInfo (String userInfo);
 
     public HttpStatus writeUserToJson (User user);
 

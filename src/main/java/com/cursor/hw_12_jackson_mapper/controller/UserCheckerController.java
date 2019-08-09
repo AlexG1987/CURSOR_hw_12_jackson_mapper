@@ -20,7 +20,7 @@ public class UserCheckerController {
     final UserCheckerService UserCheckerService;
 
     @GetMapping("/getUserInfo")
-    public List<User> getUserInfo(String userEmail) {
+    public User getUserInfo(String userEmail) {
         return UserCheckerService.getUserInfo(userEmail);
     }
 

@@ -1,13 +1,13 @@
 package com.cursor.hw_12_jackson_mapper.service;
 
 import com.cursor.hw_12_jackson_mapper.entity.User;
+import com.cursor.hw_12_jackson_mapper.exceptions.NotFoundExceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserCheckerServiceImpl implements UserCheckerService {
@@ -22,11 +22,10 @@ public class UserCheckerServiceImpl implements UserCheckerService {
 
 
     @Override
-    public List<User> getUserInfo(String userEmail) {
-        List<User> userNewList = userList.stream()
+    public User getUserInfo(String userEmail) {
+        return userList.stream()
                 .filter(user -> user.getEmail().equals(userEmail))
-                .collect(Collectors.toList());
-        return userNewList;
+                .findAny().orElseThrow(NotFoundExceptions::new);
     }
 
     @Override
