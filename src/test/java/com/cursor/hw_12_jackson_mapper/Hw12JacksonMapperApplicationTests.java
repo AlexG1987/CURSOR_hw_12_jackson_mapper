@@ -23,7 +23,7 @@ public class Hw12JacksonMapperApplicationTests {
     @Test
     public void getUserInfoTest() {
         User testUser = new User("Alex", "First", LocalDate.parse("2019-07-30"), 1, "alexfirst@domain.com", Map.of("Arrays", true, "Collections", false, "Exceptions", true));
-        String url = "http://localhost:8080/?alexfirst@domain.com";
+        String url = "http://localhost:8080/?email=alexfirst@domain.com";
         ResponseEntity<User> responseEntity = restTemplate.getForEntity(url, User.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(testUser, responseEntity.getBody());
