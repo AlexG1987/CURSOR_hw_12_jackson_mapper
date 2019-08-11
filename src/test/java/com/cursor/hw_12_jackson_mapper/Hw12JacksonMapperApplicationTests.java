@@ -13,47 +13,31 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
-import static org.springframework.boot.web.servlet.server.Session.SessionTrackingMode.URL;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class Hw12JacksonMapperApplicationTests {
-    private RestTemplate restTemplate;
-    private static final String GETUSERINFO_URL = "http://localhost:8080/getUserInfo";
-    private static final String WRITEUSER_URL = "http://localhost:8080/writeUserToJson";
-    private List<User> userList;
-    final Map<String, Boolean> homeworkToIsDone = new HashMap();
-    private Random random = new Random();
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
-
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Test
-    public void getUserInfo() {
-        User testUser = new User("Alex", "First", LocalDate.parse("2019-07-30"), 00001, "alexfirst@domain.com", homeworkToIsDone.put("Java Collections", Boolean.FALSE));
-        String url = URL + "/?email=alexfirst@domain.com";
+    public void getUserInfoTest() {
+        User testUser = new User("Alex", "First", LocalDate.parse("2019-07-30"), 1, "alexfirst@domain.com", Map.of("Arrays", true, "Collections", false, "Exceptions", true));
+        String url = "http://localhost:8080/?alexfirst@domain.com";
         ResponseEntity<User> responseEntity = restTemplate.getForEntity(url, User.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(testUser.getName(), Objects.requireNonNull(responseEntity.getBody()).getName());
-        assertEquals(testUser.getSurName(), responseEntity.getBody().getSurName());
-        assertEquals(testUser.getLastLoginDate(), responseEntity.getBody().getLastLoginDate());
-        assertEquals(testUser.getHomeworkToIsDone(), responseEntity.getBody().getHomeworkToIsDone());
+        assertEquals(testUser, responseEntity.getBody());
     }
 
     @Test
-    public void testPostRequest() {
-        User user = new User("Bob", "Second", LocalDate.parse("2019-08-06"), 00002, "bobsecond@domain.com";
-        String url = URL + "/writeUserToJson";
-        HttpEntity<User> httpEntity = new HttpEntity<>(user);
+    public void writeUserToJsonTest() {
+        User userToJson = new User("Alex", "First", LocalDate.parse("2019-07-30"), 1, "alexfirst@domain.com",
+                Map.of("Arrays", true, "Collections", false, "Exceptions", true));
+        String url = "http://localhost:8080/add";
+        HttpEntity<User> httpEntity = new HttpEntity<>(userToJson);
         ResponseEntity<HttpStatus> responseEntity = restTemplate.postForEntity(url, httpEntity, HttpStatus.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(HttpStatus.CREATED, responseEntity.getBody());
+        assertEquals(HttpStatus.OK, responseEntity.getBody());
     }
 
 }
