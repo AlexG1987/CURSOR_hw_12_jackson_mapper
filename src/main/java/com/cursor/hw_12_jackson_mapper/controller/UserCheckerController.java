@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserCheckerController {
 
-    final UserCheckerService UserCheckerService;
+    private final UserCheckerService UserCheckerService;
 
-    @GetMapping("/")
+    @GetMapping()
     public User getUserInfo(@RequestParam String email) {
         return UserCheckerService.getUserInfo(email);
     }
