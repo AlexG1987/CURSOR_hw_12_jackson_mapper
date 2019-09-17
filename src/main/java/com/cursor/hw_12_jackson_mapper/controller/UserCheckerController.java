@@ -3,29 +3,23 @@ package com.cursor.hw_12_jackson_mapper.controller;
 import com.cursor.hw_12_jackson_mapper.entity.User;
 import com.cursor.hw_12_jackson_mapper.service.UserCheckerService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("user")
 @AllArgsConstructor
 public class UserCheckerController {
 
-    @Autowired
-    final UserCheckerService UserCheckerService;
+    private final UserCheckerService UserCheckerService;
 
-    @GetMapping("/getUserInfo")
-    public List<User> getUserInfo(String userEmail) {
-        return UserCheckerService.getUserInfo(userEmail);
+    @GetMapping
+    public User getUserInfo(@RequestParam String email) {
+        return UserCheckerService.getUserInfo(email);
     }
 
-    @GetMapping("/writeUserToJson")
-    public HttpStatus writeUserToJson(User user) throws Exception {
+    @PostMapping
+    public HttpStatus writeUserToJson(@RequestBody User user) {
         return UserCheckerService.writeUserToJson(user);
     }
 
