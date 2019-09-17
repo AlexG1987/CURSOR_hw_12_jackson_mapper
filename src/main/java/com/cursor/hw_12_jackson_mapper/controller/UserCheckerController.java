@@ -7,17 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("user")
 @AllArgsConstructor
 public class UserCheckerController {
 
     private final UserCheckerService UserCheckerService;
 
-    @GetMapping()
+    @GetMapping
     public User getUserInfo(@RequestParam String email) {
         return UserCheckerService.getUserInfo(email);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public HttpStatus writeUserToJson(@RequestBody User user) {
         return UserCheckerService.writeUserToJson(user);
     }

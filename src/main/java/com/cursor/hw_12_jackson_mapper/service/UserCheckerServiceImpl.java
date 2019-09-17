@@ -14,7 +14,7 @@ import java.util.*;
 @Service
 public class UserCheckerServiceImpl implements UserCheckerService {
 
-    private static final String FILENAME = "target/userToJson.json";
+    private static final String FILE = "target/userToJson.json";
 
     private final List<User> userList = new ArrayList<>(Arrays.asList(
             new User("Alex", "First", LocalDate.parse("2019-07-30"), 1, "alexfirst@domain.com",
@@ -34,13 +34,13 @@ public class UserCheckerServiceImpl implements UserCheckerService {
     }
 
     @Override
-    public HttpStatus writeUserToJson(User user) {
+    public HttpStatus writeUserToJson(User exportUser) {
         final Random random = new Random();
         int accessId = (random.nextInt(10000) + 1);
-        user.setAccessId(accessId);
+        exportUser.setAccessId(accessId);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileOutputStream(FILENAME), user);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileOutputStream(FILE), exportUser);
             return HttpStatus.OK;
         } catch (IOException e) {
             e.printStackTrace();
